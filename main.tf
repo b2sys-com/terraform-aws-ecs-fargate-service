@@ -158,15 +158,15 @@ resource "aws_ecs_service" "service" {
 #  )
 #}
 
-resource "aws_security_group_rule" "egress" {
-  count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
-  security_group_id = aws_security_group.ecs_tasks_sg.id
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
+#resource "aws_security_group_rule" "egress" {
+#  count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
+#  security_group_id = aws_security_group.ecs_tasks_sg.id
+#  type              = "egress"
+#  from_port         = 0
+#  to_port           = 0
+#  protocol          = "-1"
+#  cidr_blocks       = ["0.0.0.0/0"]
+#}
 
 /*resource "aws_security_group_rule" "ingress_through_http_and_https" {
   //for_each                 = toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
