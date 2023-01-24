@@ -485,3 +485,8 @@ variable "container_port" {
   default     = 8080
 }
 
+variable "service_role_arn" {
+  description = "service_role"
+  type        = string
+  default     = null
+}
