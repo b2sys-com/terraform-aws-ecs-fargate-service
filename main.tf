@@ -78,7 +78,7 @@ resource "aws_ecs_service" "service" {
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
   force_new_deployment               = var.force_new_deployment
-  service_role                       = var.service_role_arn
+  iam_role                           = var.service_role_arn
 
   load_balancer {
     target_group_arn = var.target_group_arn
