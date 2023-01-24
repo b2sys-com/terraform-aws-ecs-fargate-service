@@ -175,7 +175,7 @@ resource "aws_security_group_rule" "ingress_through_http_and_https" {
   from_port                = each.key
   to_port                  = each.key
   protocol                 = "tcp"
-  source_security_group_id = module.ecs-alb[0].aws_security_group_lb_access_sg_id
+  //source_security_group_id = module.ecs-alb[0].aws_security_group_lb_access_sg_id
 }
 
 module "ecs-autoscaling" {
