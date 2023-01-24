@@ -78,6 +78,7 @@ resource "aws_ecs_service" "service" {
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
   launch_type                        = "FARGATE"
   force_new_deployment               = var.force_new_deployment
+  service_role                       = var.service_role_arn
 
   load_balancer {
     target_group_arn = var.target_group_arn
@@ -97,7 +98,6 @@ resource "aws_ecs_service" "service" {
     security_groups  = var.security_groups
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
-    service_role     = var.service_role_arn
   }
   deployment_circuit_breaker {
     enable   = var.deployment_circuit_breaker_enabled
