@@ -145,18 +145,18 @@ resource "aws_ecs_service" "service" {
 #------------------------------------------------------------------------------
 # AWS SECURITY GROUP - ECS Tasks, allow traffic only from Load Balancer
 #------------------------------------------------------------------------------
-resource "aws_security_group" "ecs_tasks_sg" {
-  name        = "${var.name_prefix}-ecs-tasks-sg"
-  description = "Allow inbound access from the LB only"
-  vpc_id      = var.vpc_id
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.name_prefix}-ecs-tasks-sg"
-    },
-  )
-}
+#resource "aws_security_group" "ecs_tasks_sg" {
+#  name        = "${var.name_prefix}-ecs-tasks-sg"
+#  description = "Allow inbound access from the LB only"
+#  vpc_id      = var.vpc_id
+#
+#  tags = merge(
+#    var.tags,
+#    {
+#      Name = "${var.name_prefix}-ecs-tasks-sg"
+#    },
+#  )
+#}
 
 resource "aws_security_group_rule" "egress" {
   count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
