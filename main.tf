@@ -94,7 +94,7 @@ resource "aws_ecs_service" "service" {
     }
   }*/
   network_configuration {
-    security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
+    security_groups  = var.security_groups
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
