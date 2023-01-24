@@ -168,15 +168,15 @@ resource "aws_security_group_rule" "egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "ingress_through_http_and_https" {
+/*resource "aws_security_group_rule" "ingress_through_http_and_https" {
   //for_each                 = toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
   security_group_id        = aws_security_group.ecs_tasks_sg.id
   type                     = "ingress"
-  from_port                = each.key
-  to_port                  = each.key
+  //from_port                = each.key
+  //to_port                  = each.key
   protocol                 = "tcp"
   //source_security_group_id = module.ecs-alb[0].aws_security_group_lb_access_sg_id
-}
+}*/
 
 module "ecs-autoscaling" {
   count = var.enable_autoscaling ? 1 : 0
