@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
-module "ecs-alb" {
+/*module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
@@ -61,7 +61,7 @@ module "ecs-alb" {
 
   # Optional tags
   tags = var.tags
-}
+}*/
 
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE
@@ -79,22 +79,20 @@ resource "aws_ecs_service" "service" {
   launch_type                        = "FARGATE"
   force_new_deployment               = var.force_new_deployment
 
-  dynamic "load_balancer" {
-    for_each = module.ecs-alb[0].lb_http_tgs_map_arn_port
-    content {
-      target_group_arn = load_balancer.key
-      container_name   = var.container_name
-      container_port   = load_balancer.value
-    }
+  load_balancer {
+    target_group_arn = var.target_group_arn
+    container_name   = var.container_name
+    container_port   = var.container_port
   }
-  dynamic "load_balancer" {
+
+  /*dynamic "load_balancer" {
     for_each = module.ecs-alb[0].lb_https_tgs_map_arn_port
     content {
       target_group_arn = load_balancer.key
       container_name   = var.container_name
       container_port   = load_balancer.value
     }
-  }
+  }*/
   network_configuration {
     security_groups  = concat([aws_security_group.ecs_tasks_sg.id], var.security_groups)
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets

@@ -472,3 +472,16 @@ variable "access_logs_prefix" {
   type        = string
   default     = null
 }
+
+variable "target_group_arn" {
+  description = "target_group_arn"
+  type        = string
+  default     = null
+}
+
+variable "container_port" {
+  description = "container_port"
+  type        = number
+  default     = 8080
+}
+
