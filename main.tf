@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER
 #------------------------------------------------------------------------------
-module "ecs-alb" {
+/*module "ecs-alb" {
   count = var.custom_lb_arn == null ? 1 : 0
 
   source  = "cn-terraform/ecs-alb/aws"
@@ -61,7 +61,7 @@ module "ecs-alb" {
 
   # Optional tags
   tags = var.tags
-}
+}*/
 
 #------------------------------------------------------------------------------
 # AWS ECS SERVICE
