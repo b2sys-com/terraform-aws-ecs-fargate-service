@@ -47,7 +47,7 @@ output "aws_ecs_service_service_desired_count" {
 #------------------------------------------------------------------------------
 # APPLICATION LOAD BALANCER
 #------------------------------------------------------------------------------
-output "aws_lb_lb_id" {
+/*output "aws_lb_lb_id" {
   description = "The ARN of the load balancer (matches arn)."
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_id : null
 }
@@ -70,12 +70,12 @@ output "aws_lb_lb_dns_name" {
 output "aws_lb_lb_zone_id" {
   description = "The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record)."
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_lb_lb_zone_id : null
-}
+}*/
 
 #------------------------------------------------------------------------------
 # ACCESS CONTROL TO APPLICATION LOAD BALANCER
 #------------------------------------------------------------------------------
-output "aws_security_group_lb_access_sg_id" {
+/*output "aws_security_group_lb_access_sg_id" {
   description = "The ID of the security group"
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_id : null
 }
@@ -113,12 +113,12 @@ output "aws_security_group_lb_access_sg_ingress" {
 output "aws_security_group_lb_access_sg_egress" {
   description = "The egress rules."
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].aws_security_group_lb_access_sg_egress : null
-}
+}*/
 
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER - Target Groups
 #------------------------------------------------------------------------------
-output "lb_http_tgs_ids" {
+/*output "lb_http_tgs_ids" {
   description = "List of HTTP Target Groups IDs"
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_tgs_ids : null
 }
@@ -146,12 +146,12 @@ output "lb_https_tgs_arns" {
 output "lb_https_tgs_names" {
   description = "List of HTTPS Target Groups Names"
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_tgs_names : null
-}
+}*/
 
 #------------------------------------------------------------------------------
 # AWS LOAD BALANCER - Listeners
 #------------------------------------------------------------------------------
-output "lb_http_listeners_ids" {
+/*output "lb_http_listeners_ids" {
   description = "List of HTTP Listeners IDs"
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_http_listeners_ids : null
 }
@@ -169,4 +169,4 @@ output "lb_https_listeners_ids" {
 output "lb_https_listeners_arns" {
   description = "List of HTTPS Listeners ARNs"
   value       = var.custom_lb_arn == null ? module.ecs-alb[0].lb_https_listeners_arns : null
-}
+}*/
