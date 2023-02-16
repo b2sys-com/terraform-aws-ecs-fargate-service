@@ -1,69 +1,4 @@
 #------------------------------------------------------------------------------
-# AWS LOAD BALANCER
-#------------------------------------------------------------------------------
-/*module "ecs-alb" {
-  count = var.custom_lb_arn == null ? 1 : 0
-
-  source  = "cn-terraform/ecs-alb/aws"
-  version = "1.0.28"
-
-
-  name_prefix = var.name_prefix
-  vpc_id      = var.vpc_id
-
-  # Application Load Balancer Logs S3 Bucket
-  enable_s3_logs                                 = var.enable_s3_logs
-  log_bucket_id                                  = var.log_bucket_id
-  block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
-  enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
-  s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
-  s3_bucket_server_side_encryption_key           = var.s3_bucket_server_side_encryption_key
-  access_logs_prefix                             = var.access_logs_prefix
-
-  # Application Load Balancer
-  internal                         = var.lb_internal
-  security_groups                  = var.lb_security_groups
-  drop_invalid_header_fields       = var.lb_drop_invalid_header_fields
-  private_subnets                  = var.private_subnets
-  public_subnets                   = var.public_subnets
-  idle_timeout                     = var.lb_idle_timeout
-  enable_deletion_protection       = var.lb_enable_deletion_protection
-  enable_cross_zone_load_balancing = var.lb_enable_cross_zone_load_balancing
-  enable_http2                     = var.lb_enable_http2
-  ip_address_type                  = var.lb_ip_address_type
-  waf_web_acl_arn                  = var.waf_web_acl_arn
-
-  # Access Control to Application Load Balancer
-  http_ports                    = var.lb_http_ports
-  http_ingress_cidr_blocks      = var.lb_http_ingress_cidr_blocks
-  http_ingress_prefix_list_ids  = var.lb_http_ingress_prefix_list_ids
-  https_ports                   = var.lb_https_ports
-  https_ingress_cidr_blocks     = var.lb_https_ingress_cidr_blocks
-  https_ingress_prefix_list_ids = var.lb_https_ingress_prefix_list_ids
-
-  # Target Groups
-  deregistration_delay                          = var.lb_deregistration_delay
-  slow_start                                    = var.lb_slow_start
-  load_balancing_algorithm_type                 = var.lb_load_balancing_algorithm_type
-  stickiness                                    = var.lb_stickiness
-  target_group_health_check_enabled             = var.lb_target_group_health_check_enabled
-  target_group_health_check_interval            = var.lb_target_group_health_check_interval
-  target_group_health_check_path                = var.lb_target_group_health_check_path
-  target_group_health_check_timeout             = var.lb_target_group_health_check_timeout
-  target_group_health_check_healthy_threshold   = var.lb_target_group_health_check_healthy_threshold
-  target_group_health_check_unhealthy_threshold = var.lb_target_group_health_check_unhealthy_threshold
-  target_group_health_check_matcher             = var.lb_target_group_health_check_matcher
-
-  # Certificates
-  default_certificate_arn                         = var.default_certificate_arn
-  ssl_policy                                      = var.ssl_policy
-  additional_certificates_arn_for_https_listeners = var.additional_certificates_arn_for_https_listeners
-
-  # Optional tags
-  tags = var.tags
-}*/
-
-#------------------------------------------------------------------------------
 # AWS ECS SERVICE
 #------------------------------------------------------------------------------
 resource "aws_ecs_service" "service" {
@@ -85,14 +20,6 @@ resource "aws_ecs_service" "service" {
     container_port   = var.container_port
   }
 
-  /*dynamic "load_balancer" {
-    for_each = module.ecs-alb[0].lb_https_tgs_map_arn_port
-    content {
-      target_group_arn = load_balancer.key
-      container_name   = var.container_name
-      container_port   = load_balancer.value
-    }
-  }*/
   network_configuration {
     security_groups  = var.security_groups
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
@@ -141,42 +68,6 @@ resource "aws_ecs_service" "service" {
     },
   )
 }
-
-#------------------------------------------------------------------------------
-# AWS SECURITY GROUP - ECS Tasks, allow traffic only from Load Balancer
-#------------------------------------------------------------------------------
-#resource "aws_security_group" "ecs_tasks_sg" {
-#  name        = "${var.name_prefix}-ecs-tasks-sg"
-#  description = "Allow inbound access from the LB only"
-#  vpc_id      = var.vpc_id
-#
-#  tags = merge(
-#    var.tags,
-#    {
-#      Name = "${var.name_prefix}-ecs-tasks-sg"
-#    },
-#  )
-#}
-
-#resource "aws_security_group_rule" "egress" {
-#  count             = var.ecs_tasks_sg_allow_egress_to_anywhere ? 1 : 0
-#  security_group_id = aws_security_group.ecs_tasks_sg.id
-#  type              = "egress"
-#  from_port         = 0
-#  to_port           = 0
-#  protocol          = "-1"
-#  cidr_blocks       = ["0.0.0.0/0"]
-#}
-
-/*resource "aws_security_group_rule" "ingress_through_http_and_https" {
-  //for_each                 = toset(concat(module.ecs-alb[0].lb_https_tgs_ports, module.ecs-alb[0].lb_http_tgs_ports))
-  security_group_id        = aws_security_group.ecs_tasks_sg.id
-  type                     = "ingress"
-  //from_port                = each.key
-  //to_port                  = each.key
-  protocol                 = "tcp"
-  //source_security_group_id = module.ecs-alb[0].aws_security_group_lb_access_sg_id
-}*/
 
 module "ecs-autoscaling" {
   count = var.enable_autoscaling ? 1 : 0
